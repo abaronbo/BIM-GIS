@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IFC.js</title>
+    <style>
+        /* CSS Styles */
+        #controls-container {
+            position: absolute; 
+            top: 10px; 
+            left: 10px; 
+            z-index: 1000; 
+        }
+
+        #viewer-container {
+            height: 100vh; 
+            width: 100%; 
+        }
+
+        #query-container {
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        
+        #ifc-query-form {
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body> 
+    <input type="file" id="file-input">
+    <div id="viewer-container"></div>
+    <div id="controls-container"> 
+       <!-- Form for the IFC query -->
+       <form id="ifc-query-form" method="post" action="http://127.0.0.1:8000/get_ifc_attributes/">
+        <div id="query-container">
+            <span>Generate an inventory of all entities of class</span>
+            <select name="entity_type">
+                <!-- List of classes. These classes are a subclass of IfcBuildngElement -->
+                <option value="IfcBeam">IfcBeam</option>
+                <option value="IfcBuildingElementProxy">IfcBuildingElementProxy</option>
+                <option value="IfcChimney">IfcChimney</option>
+                <option value="IfcColumn">IfcColumn</option>
+                <option value="IfcCovering">IfcCovering</option>
+                <option value="IfcCurtainWall">IfcCurtainWall</option>
+                <option value="IfcDoor">IfcDoor</option>
+                <option value="IfcFooting">IfcFooting</option>
+                <option value="IfcMember">IfcMember</option>
+                <option value="IfcPile">IfcPile</option>
+                <option value="IfcPlate">IfcPlate</option>
+                <option value="IfcRailing">IfcRailing</option>
+                <option value="IfcRamp">IfcRamp</option>
+                <option value="IfcRampFlight">IfcRampFlight</option>
+                <option value="IfcRoof">IfcRoof</option>
+                <option value="IfcShadingDevice">IfcShadingDevice</option>
+                <option value="IfcSlab">IfcSlab</option>
+                <option value="IfcStair">IfcStair</option>
+                <option value="IfcStairFlight">IfcStairFlight</option>
+                <option value="IfcWall">IfcWall</option>
+                <option value="IfcWindow">IfcWindow</option>
+            </select>
+            <span>in this building.</span>
+        </div>
+        <input type="hidden" name="csrfmiddlewaretoken" value="" id="csrf-token-field">
+            <input type="hidden" name="ifc_url" value="" id="ifc-url-field">
+            <button type="submit">Download inventory</button>
+            </form>
+<!-- Download the IFC file -->
+<a href="" id="downloadIfcLink" download>Download IFC File</a>
+</div>
+    </div>
+    <script type="module" src="./bundle.js"></script>
+
+    <script>
+
+        // Set and get the IFC URL 
+        document.getElementById('ifc-url-field').value = new URLSearchParams(window.location.search).get('ifc_url');
+        
+        const ifcFileUrl = new URLSearchParams(window.location.search).get('ifc_url');
+
+        // Update the download link with the IFC file URL
+        document.getElementById('downloadIfcLink').href = ifcFileUrl;
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIM-GIS</title>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            overflow: auto;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #FAEBD7, #7ea74f);
+            color: #2F4F4F;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #000000;
+            border-bottom: 4px solid #27496D;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        #cesiumContainer {
+            width: 80%; 
+            height: 70vh; 
+            border: none;
+            margin: 2vh auto; 
+        }
+
+        .description {
+            
+            margin: 20px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: #27496D;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background-color: #2F4F4F;
+        }
+    </style>
+</head>
+<body>
+    <h1>A link between domains</h1>
+    <div id="cesiumContainer"></div>
+    <div class="description">
+        <p>This platform presents an approach to manage, visualize, and query IFC files in a GIS environment by creating a link between domains. It uses the unique BAG ID of each building as the key identifier, forming the basis for linking datasets. Users have the flexibility to either upload a CSV dataset, which includes the BAG ID and the corresponding IFC file path for each building, or to select a building in the GIS environment and upload an individual IFC file for it. When a building is associated with an IFC model, selecting that building in the GIS environment triggers the opening of an IFC viewer. This viewer allows users to visualize the model and extract detailed properties and quantities of various elements, specifically those categorized as IFCBuildingElements. </p>
+    </div>
+    <div class="button-container">
+        <a href="http://127.0.0.1:8000/ifcupload/upload-dataset/" class="button">Upload Dataset (CSV)</a>
+    </div>
+
+    <script type="module">
+        Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZGJmYzUwYS1hZjQ3LTQyYWQtOWE1Mi05ZGEzZTBiNmQ0YzQiLCJpZCI6MTczMTEzLCJpYXQiOjE2OTc5MTE5MjV9.tvfLY1jCYV4fKatINnGyQQa7rWIhlZr_mR3gNNd-PD0';
+        const viewer = new Cesium.Viewer('cesiumContainer', {
+            terrain: Cesium.Terrain.fromWorldTerrain(),
+            animation: false,
+            timeline: false,
+            baseLayerPicker: false
+        });
+        viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(5.48505, 51.44623, 400),
+            orientation: {
+                heading: Cesium.Math.toRadians(0.0),
+                pitch: Cesium.Math.toRadians(-15.0),
+            }
+        });
+        const buildingTileset = await Cesium.createOsmBuildingsAsync();
+        viewer.scene.primitives.add(buildingTileset);
+
+        // Cesium click event handler
+
+        const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+// Action that occurs with the left click
+handler.setInputAction(async function (click) {
+const pickedObject = viewer.scene.pick(click.position);
+if (Cesium.defined(pickedObject)) {
+
+// Gets the value of the property "ref:bag"
+const refBag = pickedObject.getProperty("ref:bag");
+
+if (refBag) {
+    // Goes to the URL built using the refBag (defined previously with "ref:bag")
+    const response = await fetch(`http://127.0.0.1:8000/ifcupload/get-ifc-url?ref_bag_id=${refBag}`);
+    const data = await response.json();
+
+    if (data.status === 'success') {
+        // Opens the IFC viewer in a new tab if there is an associated IFC file with that bag:id.
+        window.open(`http://127.0.0.1:5500/ifcviewer/?ifc_url=http://127.0.0.1:8000${data.ifc_url}`, '_blank');
+    } else {
+        // Opens the upload form in a new tab if there is NOT an associated IFC file with that bag:id.
+        window.open(`http://127.0.0.1:8000/ifcupload/upload-form/?ref_bag_id=${refBag}`, '_blank');
+    }
+}
+}
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    </script>
+</body>
+</html>

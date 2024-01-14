@@ -1,0 +1,5 @@
+
+django
+ifcopenshell
+lark
+django-cors-headers

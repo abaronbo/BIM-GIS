@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We could not find an IFC file</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #FAEBD7, #FFEBCD);
+            color: #2F4F4F;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            margin: 20px 0;
+            font-size: 1.1em;
+            color: #27496D;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        input[type="text"], input[type="file"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #27496D;
+            border-radius: 5px;
+            width: 80%;
+        }
+
+        input[type="submit"] {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: #27496D;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2F4F4F;
+        }
+
+        input[readonly] {
+            background-color: #e9ecef;
+            color: #495057;
+            cursor: not-allowed;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: #27496D;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #2F4F4F;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2>IFC file not found</h2>
+        <p class="message">
+            We could not find an IFC file associated with this building.
+            Would you like to upload a file?
+        </p>
+        <form action="/ifcupload/upload-ifc/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Populate Bag ID field -->
+            <input type="text" id="ref_bag_id" name="ref_bag_id" placeholder="Ref:Bag ID" value="{{ form.ref_bag_id.value }}" readonly><br>
+            <!-- Upload an IFC file -->
+            <input type="file" id="ifc_file" name="ifc_file" accept=".ifc" required><br>
+            <input type="submit" class="button" value="Upload IFC File">
+        </form>
+        <!-- Link to the 3D Viewer  -->
+        <a href="http://127.0.0.1:8000/" class="button">Take me back to the 3D Viewer!</a>
+    </div>
+</body>
+</html>
