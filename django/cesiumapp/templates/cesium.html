@@ -70,7 +70,7 @@
     </div>
 
     <script type="module">
-        Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiZGJmYzUwYS1hZjQ3LTQyYWQtOWE1Mi05ZGEzZTBiNmQ0YzQiLCJpZCI6MTczMTEzLCJpYXQiOjE2OTc5MTE5MjV9.tvfLY1jCYV4fKatINnGyQQa7rWIhlZr_mR3gNNd-PD0';
+        Cesium.Ion.defaultAccessToken = 'YOUR ACCESS TOKEN';
         const viewer = new Cesium.Viewer('cesiumContainer', {
             terrain: Cesium.Terrain.fromWorldTerrain(),
             animation: false,
@@ -106,7 +106,7 @@ if (refBag) {
 
     if (data.status === 'success') {
         // Opens the IFC viewer in a new tab if there is an associated IFC file with that bag:id.
-        window.open(`http://127.0.0.1:5500/ifcviewer/?ifc_url=http://127.0.0.1:8000${data.ifc_url}`, '_blank');
+        window.open(`http://127.0.0.1:5500/BIM-GIS/ifcviewer/?ifc_url=http://127.0.0.1:8000${data.ifc_url}`, '_blank');
     } else {
         // Opens the upload form in a new tab if there is NOT an associated IFC file with that bag:id.
         window.open(`http://127.0.0.1:8000/ifcupload/upload-form/?ref_bag_id=${refBag}`, '_blank');
