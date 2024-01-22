@@ -20,6 +20,9 @@ The project consists of two main components: A web platform and a browser-suppor
 
 **queryifcapp:** Based on [IfcOpenShell](http://ifcopenshell.org). Provides querying capabilities and enables the download of inventory lists of IfcBuildingElements.
 
+<img width="223" alt="image" src="https://github.com/abaronbo/BIM-GIS/assets/124626975/56314b93-3a5c-41c0-ae8f-f90a9151f228">
+
+
 ## Tutorial
 
 ### Step 1
