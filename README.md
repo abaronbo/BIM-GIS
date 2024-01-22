@@ -12,16 +12,17 @@ Welcome to the BIM-GIS Tutorial! This repository teaches how to build and implem
 
 ## Structure
 
-The project consists of two main components: A web platform and a browser-supported IFC viewer. The web platform contains three main applications, which are:
+The project consists of two main components: A web platform and a browser-supported IFC viewer. 
+
+<img width="223" alt="image" src="https://github.com/abaronbo/BIM-GIS/assets/124626975/80651d5a-76a1-4d10-96e8-80a5d3742c46">
+
+The web platform contains three main applications, which are:
 
 **cesiumapp:** Based on [CesiumJS](https://cesium.com/learn/cesiumjs-learn/cesiumjs-quickstart/) and used to represent geospatial data.
 
 **ifcupload:** Handles the upload of datasets and IFC files and links them with the geospatial model.
 
 **queryifcapp:** Based on [IfcOpenShell](http://ifcopenshell.org). Provides querying capabilities and enables the download of inventory lists of IfcBuildingElements.
-
-<img width="223" alt="image" src="https://github.com/abaronbo/BIM-GIS/assets/124626975/56314b93-3a5c-41c0-ae8f-f90a9151f228">
-
 
 ## Tutorial
 
