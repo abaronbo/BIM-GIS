@@ -1,5 +1,5 @@
 # BIM-GIS
-This repository contains the source code of BIM-GIS, a web platform based on Django that aims to improve the interoperabilty between Building Information Modeling and Geographic Information System applications.
+This repository contains the source code of BIM-GIS, a web platform based on Django that aims to improve the integration between Building Information Modeling and Geographic Information System applications.
 
 **Andres Baron Botero**
 [a.g.baron.botero@student.tue.nl](mailto:a.g.baron.botero@student.tue.nl)
